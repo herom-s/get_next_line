@@ -41,10 +41,11 @@ char	*ft_break_rest(char **rest)
 	return (line);
 }
 
-void	ft_free_rest(char **rest)
+char	*ft_free_rest(char **rest)
 {
 	free(*rest);
 	*rest = NULL;
+	return (NULL);
 }
 
 char	*ft_get_line(int fd, char **rest, char *buffer)
@@ -57,7 +58,7 @@ char	*ft_get_line(int fd, char **rest, char *buffer)
 	{
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
 		if (bytes_read < 0)
-			return (ft_free_rest(rest), NULL);
+			return (ft_free_rest(rest));
 		buffer[bytes_read] = '\0';
 		tmp_rest = ft_strjoin(*rest, buffer);
 		free(*rest);
@@ -71,7 +72,7 @@ char	*ft_get_line(int fd, char **rest, char *buffer)
 		*rest = NULL;
 		return (tmp_rest);
 	}
-	return (ft_free_rest(rest), NULL);
+	return (ft_free_rest(rest));
 }
 
 char	*get_next_line(int fd)
@@ -86,15 +87,17 @@ char	*get_next_line(int fd)
 			ft_free_rest(&rest);
 		return (NULL);
 	}
-	buffer = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
+	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (!buffer)
 		return (NULL);
 	if (!rest)
 		rest = ft_strdup("");
 	if (!rest)
-		return (free(buffer), NULL);
+	{
+		free(buffer);
+		return (NULL);
+	}
 	line = ft_get_line(fd, &rest, buffer);
-	if (!line)
-		return (free(buffer), NULL);
-	return (free(buffer), line);
+	free(buffer);
+	return (line);
 }

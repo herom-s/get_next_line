@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "get_next_line_bonus.h"
 #include <stdlib.h>
 
 size_t	ft_strlen(const char *s)
@@ -32,7 +33,7 @@ char	*ft_strdup(const char *s)
 	s_len = ft_strlen(s);
 	res = (char *)malloc((s_len + 1) * sizeof(char));
 	if (!res)
-		return ((void *)0);
+		return (NULL);
 	while (i < s_len)
 	{
 		res[i] = s[i];
@@ -52,7 +53,7 @@ char	*ft_strchr(const char *s, int c)
 	}
 	if ((char)c == '\0')
 		return ((char *)s);
-	return ((void *)0);
+	return (NULL);
 }
 
 char	*ft_strjoin(char *s1, char *s2)
@@ -97,7 +98,7 @@ char	*ft_substrp(char const *s, char const *start, size_t len)
 		max_len = len;
 	sub_str = malloc((max_len + 1) * sizeof(char));
 	if (!sub_str)
-		return ((void *)0);
+		return (NULL);
 	while (i < max_len && start[i])
 	{
 		sub_str[i] = start[i];

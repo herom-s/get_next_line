@@ -86,15 +86,17 @@ char	*get_next_line(int fd)
 			ft_free_rest(&rest[fd]);
 		return (NULL);
 	}
-	buffer = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
+	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (!buffer)
 		return (NULL);
 	if (!rest[fd])
 		rest[fd] = ft_strdup("");
 	if (!rest[fd])
-		return (free(buffer), NULL);
+	{
+		free(buffer);
+		return (NULL);
+	}
 	line = ft_get_line(fd, &rest[fd], buffer);
-	if (!line)
-		return (free(buffer), NULL);
-	return (free(buffer), line);
+	free(buffer);
+	return (line);
 }
